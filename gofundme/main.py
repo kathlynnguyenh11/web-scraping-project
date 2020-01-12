@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup 
 import requests
-#import re
 import pandas as pd
 from urllib.request import Request, urlopen
 
@@ -61,29 +60,24 @@ def get_gofundme():
     return output
 
 def get_successStories():
-    output={}
-    successUrl='https://www.gofundme.com/c/heroes'
+    output=""
+    successUrl='https://www.gofundme.com/c/success'
 
-    successPage=requests.get(successUrl)
+    successPage = requests.get(successUrl, headers={'user-agent': 'Mozilla/5.0'})
     successSoup = BeautifulSoup(successPage.text,'html.parser')
-    print(successSoup)
-    if successPage.status_code == requests.codes.ok:
-        print('Everything is cool!')
-    else:
-        print('no')
-    for story in successSoup.find_all('div',attrs={'class':'story-card story-card-flip grid-x'}):
+    
+    for story in successSoup.find_all('div',attrs={'class':'cell large-8 story-content'}):
         result={}
-        result['Title']=story.find('a',attrs={'class':'text-black'}).text.strip()
-        print(result['Title']+'test')
+        result['Title']=story.find('h2',attrs={'class':'heading-3'}).text.strip()
         result['Description']=story.find('p',attrs={'class':'medium-gray mb2x text-small'}).text.strip()
-        result['Link']='https://www.gofundme.com/f/'+story.find('a').get('href').text
+        result['Link']='https://www.gofundme.com/f/'+story.find('a').get('href')
 
         for res in result:
             output+=res
             output+="\t"
             output+=result[res]
             output+="\n"
-            output+="\n===============#===============\n"
+        output+="\n===============#===============\n"
     return output
 #Option board - prompts for user input
 def board(opt):
