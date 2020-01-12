@@ -1,2 +1,2 @@
 # web-scraping-projects
-gofundme: Scrape for campaigns based on user's keyword input
+gofundme: A Python program to scrape for campaigns based on user's keyword input, using BeautifulSoup library for web-scraping and Pandas library for analyzing
